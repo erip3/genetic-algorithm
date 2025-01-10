@@ -70,7 +70,6 @@ void Schedule::initializeSchedule() {
         currentNode->section = newSection;
         currentNode->next = nullptr;
 
-
         // Randomly assigns meeting times to each section on the schedule
         // Case 1: MWF, Case 2: TR, Case 3
         //
@@ -82,27 +81,20 @@ void Schedule::initializeSchedule() {
         if (num >= 4) {
 
             do {
-
                 randomTime = (rand() % 24);
-
             } while (10 <= randomTime && randomTime <= 12);
 
         } else if (2 <= num <= 3) {
 
             do {
-
                 randomTime = (rand() % 24);
-
             } while (10 <= randomTime && randomTime <= 12);
 
         } else {
 
             do {
-
                 randomTime = (rand() % 24);
-
             } while (randomTime == 12);
-
         }
 
 
@@ -111,51 +103,41 @@ void Schedule::initializeSchedule() {
         switch(num)
         {
             case 1:
-
                 currentNode->section->addMeeting(new Meeting('M', randomTime, randomTime + 1));
                 currentNode->section->addMeeting(new Meeting('W', randomTime, randomTime + 1));
                 currentNode->section->addMeeting(new Meeting('F', randomTime, randomTime + 1));
                 break;
 
             case 2:
-
                 currentNode->section->addMeeting(new Meeting('T', randomTime, randomTime + 2));
                 currentNode->section->addMeeting(new Meeting('R', randomTime, randomTime + 2));
                 break;
 
             case 3: 
-
                 currentNode->section->addMeeting(new Meeting('M', randomTime, randomTime + 2));
                 currentNode->section->addMeeting(new Meeting('W', randomTime, randomTime + 2));
                 break;
 
             case 4:
-
                 currentNode->section->addMeeting(new Meeting('M', randomTime, randomTime + 3));
                 break;
 
             case 5:
-
                 currentNode->section->addMeeting(new Meeting('T', randomTime, randomTime + 3));
                 break;
 
             case 6:
-
                 currentNode->section->addMeeting(new Meeting('W', randomTime, randomTime + 3));
                 break;
 
             case 7:
-
                 currentNode->section->addMeeting(new Meeting('R', randomTime, randomTime + 3));
                 break;
 
             case 8:
-
                 currentNode->section->addMeeting(new Meeting('F', randomTime, randomTime + 3));
                 break;  
-
         }
-
 
         // Instructor array is updated for new section addition
         //   
@@ -203,21 +185,13 @@ void Schedule::initializeSchedule() {
                         ++instructors[i]->meetingCounts[4];
 
                     }
-
                 }
-
             }
-
         }
 
         // If the instructor doesn't exist, a new struct is created
         //
         if (!instructorExists) {
-
-
-            // This part may cause CRAZY
-
-
 
             // Expands array by STEP when necessary
             //
@@ -226,25 +200,16 @@ void Schedule::initializeSchedule() {
                 Instructor** temp = new Instructor*[instructorCount + STEP];
 
                 for (int q=0; q < instructorCount; ++q) {
-
                     temp[q] = instructors[q];
                 }
 
                 instructors = temp;
-
             }
-
-
-
-
-
 
             instructors[instructorCount] = new Instructor;
 
             for (int i=0; i<5; ++i) {
-
                 instructors[instructorCount]->meetings[i] = new Meeting*[STEP];
-
             }
 
             instructors[instructorCount]->name = currentNode->section->getInstructor();
@@ -283,24 +248,18 @@ void Schedule::initializeSchedule() {
                     ++instructors[instructorCount]->meetingCounts[4];
 
                 }
-
             }
 
             ++instructorCount;
-
         }
         
 
         // Nodes are assigned their next pointers
         //
         if (head == nullptr) {
-
             head = currentNode;
-
         } else {
-
             previousNode->next = currentNode;
-
         }
 
         previousNode = currentNode;
@@ -311,11 +270,8 @@ void Schedule::initializeSchedule() {
     // Checks of end of file was reached successfully
     //
     if (!inFS.eof()) {
-
         cout << "Could not reach end of file." << endl;
-
     }
-
 }
 
 
@@ -376,22 +332,13 @@ void Schedule::initializeInstructors() {
                         ++instructors[i]->meetingCounts[4];
 
                     }
-
                 }
-
             }
-
         }
 
         // If the instructor doesn't exist, a new struct is created
         //
         if (!instructorExists) {
-
-
-
-            // This part may cause CRAZY
-
-
 
             // Expands array by STEP when necessary
             //
@@ -400,27 +347,18 @@ void Schedule::initializeInstructors() {
                 Instructor** temp = new Instructor*[instructorCount + STEP];
 
                 for (int q=0; q < instructorCount; ++q) {
-
                     temp[q] = instructors[q];
                 }
 
                 instructors = temp;
-
             }
-
-
-
-
-            
 
             instructors[instructorCount] = new Instructor;
 
             // Creates new meeting arrays for each day
             //
             for (int i=0; i<5; ++i) {
-
                 instructors[instructorCount]->meetings[i] = new Meeting*[STEP];
-
             }
 
             instructors[instructorCount]->name = currentNode->section->getInstructor();
@@ -428,7 +366,6 @@ void Schedule::initializeInstructors() {
             tempMeetings = currentNode->section->getMeetings();
 
             tempMeetingCount = currentNode->section->getMeetingCount();
-
 
             // Adds meetings to the correct day array
             //
@@ -460,17 +397,13 @@ void Schedule::initializeInstructors() {
                     ++instructors[instructorCount]->meetingCounts[4];
 
                 }
-
             }
 
             ++instructorCount;
-
         }
 
         currentNode = currentNode->next;
-
     }
-
 }
 
 
@@ -504,7 +437,9 @@ void Schedule::copyInsert(const Node* node) {
     if (currentNode == nullptr) {
         head = nodeCopy;
     } else {
+
         while (!inserted) {
+            
             if (currentNode->next == nullptr) {
                 currentNode->next = nodeCopy;
                 inserted = true;
@@ -513,6 +448,7 @@ void Schedule::copyInsert(const Node* node) {
             currentNode = currentNode->next;
         }
     }
+
     ++nodeCount;
 }
 

@@ -54,8 +54,7 @@ public:
     // Return:
     //    Pointer to a schedule with the lowest fitness value.
     //
-    Schedule* optimizeSchedule();
-    
+    Schedule* optimizeSchedule(); 
 };
 
-#endif 
+#endif

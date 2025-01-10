@@ -1,12 +1,10 @@
 #include "Optimizer.h"
 #include "Rule.h"
 #include "Schedule.h"
-
 #include <ctime>
 #include <iostream>
 
 using namespace std;
-
 
 // Crossover function for creating new generations
 //
@@ -26,32 +24,25 @@ Schedule* crossover(const Schedule* schedule1, const Schedule* schedule2) {
     while (currentNode1 != nullptr && currentNode2 != nullptr) {
 
         if (count < randomNum) {
-
             newSchedule->copyInsert(currentNode1);
-
         } else {
-
             newSchedule->copyInsert(currentNode2);
-
         }
 
         currentNode1 = currentNode1->next;
         currentNode2 = currentNode2->next;
         count++;
-
     }
 
     newSchedule->initializeInstructors();
 
     return newSchedule;
-
 }
 
 
 Schedule* Optimizer::optimizeSchedule() {
 
     Schedule* currentSchedule;
-
     int generationsCreated = 1;
     int stableCount = 0;
     int bestFitness;
@@ -62,7 +53,6 @@ Schedule* Optimizer::optimizeSchedule() {
     // 100 schedule are created and stored in an array
     //
     for (int i=0; i<POPULATION_SIZE; ++i) {
-
         currentSchedule = new Schedule;
         currentSchedule->initializeSchedule();
 
@@ -84,10 +74,8 @@ Schedule* Optimizer::optimizeSchedule() {
         int s = 0;
 
         if (i == 0) {
-
             schedules[i] = currentSchedule;
             inserted = true;
-
         }
 
         while (!inserted && s < i) {
@@ -97,27 +85,19 @@ Schedule* Optimizer::optimizeSchedule() {
                 inserted = true;
 
                 for (int k=i; k > s; --k) {
-
                     schedules[k] = schedules[k-1];
-
                 }
 
                 schedules[s] = currentSchedule;
-
             }
 
             s++;
-
         }
 
         if (!inserted) {
-
             schedules[i] = currentSchedule;
-
         }
-
     }
-
 
     bestFitness = schedules[0]->getFitness();
 
@@ -130,20 +110,14 @@ Schedule* Optimizer::optimizeSchedule() {
         // Elite schedules added to array
         //
         for (int i=0; i<ELITE_SIZE; ++i) {
-
             eliteSchedules[i] = schedules[i];
-
         }
-
 
         // Non-Elite schedules are deleted 
         //
         for (int i=ELITE_SIZE; i<POPULATION_SIZE; ++i) {
-
             delete schedules[i];
-
         }
-
 
         // New Generation Creation
         //
@@ -153,9 +127,7 @@ Schedule* Optimizer::optimizeSchedule() {
             int random2 = (rand() % ELITE_SIZE);
 
             while (random1 == random2) {
-
                 random2 = (rand() % ELITE_SIZE);
-
             }
 
             currentSchedule = crossover(eliteSchedules[random1], eliteSchedules[random2]);
@@ -184,25 +156,18 @@ Schedule* Optimizer::optimizeSchedule() {
                     inserted = true;
 
                     for (int k=i; k > s; --k) {
-
                         schedules[k] = schedules[k-1];
-
                     }
 
                     schedules[s] = currentSchedule;
-
                 }
 
                 s++;
-
             }
 
             if (!inserted) {
-
                 schedules[i] = currentSchedule;
-
             }
-
         }
 
         generationsCreated++;
@@ -211,20 +176,13 @@ Schedule* Optimizer::optimizeSchedule() {
         bestFitness = schedules[0]->getFitness();
 
         if (bestFitness == prevBest) {
-
             stableCount++;
-
         } else {
-
             stableCount = 0;
-
         }
 
         cout << "Generation " << generationsCreated <<  " Best Fitness: " << bestFitness << endl;
-
     }
 
-
     return schedules[0];
-
 }

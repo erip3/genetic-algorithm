@@ -34,17 +34,11 @@ void Rule1::getFitness(Schedule* schedule) {
                     currentMeeting->getStartTime() < futureMeeting->getStopTime()) {
 
                         schedule->updateFitness(1000000);
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 };
 
 
@@ -74,79 +68,57 @@ void Rule2::getFitness(Schedule* schedule) {
         // Adds the total hours for each professor to overtimeHours
         //
         for (int k=0; k < instructors[i]->meetingCounts[0]; ++k) {
-
             mondayHours += 
             instructors[i]->meetings[0][k]->getStopTime() 
             - instructors[i]->meetings[0][k]->getStartTime();
-
         }
 
         if (mondayHours > 9) {
-
             totalOvertimeHours += (mondayHours - 9);
-
         }
 
         for (int k=0; k < instructors[i]->meetingCounts[1]; ++k) {
-
             tuesdayHours += 
             instructors[i]->meetings[1][k]->getStopTime() 
             - instructors[i]->meetings[1][k]->getStartTime();
-
         }
 
         if (tuesdayHours > 9) {
-
             totalOvertimeHours += (tuesdayHours - 9);
-
         }
 
         for (int k=0; k < instructors[i]->meetingCounts[2]; ++k) {
-
             wednesdayHours += 
             instructors[i]->meetings[2][k]->getStopTime() 
             - instructors[i]->meetings[2][k]->getStartTime();
-
         }
 
         if (wednesdayHours > 9) {
-
             totalOvertimeHours += (wednesdayHours - 9);
-
         }
 
         for (int k=0; k < instructors[i]->meetingCounts[3]; ++k) {
-
             thursdayHours += 
             instructors[i]->meetings[3][k]->getStopTime() 
             - instructors[i]->meetings[3][k]->getStartTime();
-
         }
 
         if (thursdayHours > 9) {
-
             totalOvertimeHours += (thursdayHours - 9);
-
         }
 
         for (int k=0; k < instructors[i]->meetingCounts[4]; ++k) {
-
             fridayHours += 
             instructors[i]->meetings[4][k]->getStopTime() 
             - instructors[i]->meetings[4][k]->getStartTime();
-
         }
 
         if (fridayHours > 9) {
-
             totalOvertimeHours += (fridayHours - 9);
-
         }
-
     }
 
     schedule->updateFitness(totalOvertimeHours * 100);
-
 };
 
 
@@ -185,21 +157,13 @@ void Rule3::getFitness(Schedule* schedule) {
                         tomorrowMeeting = instructors[i]->meetings[k+1][m];
 
                         if (tomorrowMeeting->getStartTime() < 11) {
-
                             schedule->updateFitness((11 - tomorrowMeeting->getStartTime()) * 100);
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }
 
 // Avoid scheduling instructors for more than two evenings per week
@@ -228,23 +192,15 @@ void Rule4::getFitness(Schedule* schedule) {
 
                 // If meeting starts in the evening
                 if (currentMeeting->getStartTime() >= 18) {
-
                     eveningCount++;
-
                 }
-
             }
-
         }
 
         if (eveningCount > 2) {
-
             schedule->updateFitness(50 * (eveningCount - 2));
-
         }
-
     }
-
 }
 
 
@@ -272,19 +228,12 @@ void Rule5::getFitness(Schedule* schedule) {
                 for (int m=j; m<instructors[i]->meetingCounts[k]; ++m) {
 
                     if (currentMeeting->getStopTime() == instructors[i]->meetings[k][m]->getStartTime()) {
-
                         schedule->updateFitness(50);
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }
 
 
@@ -310,17 +259,11 @@ void Rule6::getFitness(Schedule* schedule) {
                 currentMeeting = instructors[i]->meetings[k][j];
 
                 if (currentMeeting->getStopTime() == 12 || currentMeeting->getStartTime() == 1) {
-
                     schedule->updateFitness(50);
-
                 }
-
             }
-
         }
-
     }
-
 }
 
 
@@ -339,15 +282,10 @@ void Rule7::getFitness(Schedule* schedule) {
         for (int k=0; k<5; ++k) {
 
             if (instructors[i]->meetingCounts[k] > 3) {
-
                 schedule->updateFitness(50);
-
             }
-
         }
-
     }
-
 }
 
 
@@ -374,23 +312,15 @@ void Rule8::getFitness(Schedule* schedule) {
 
                 // If the total time is greater than o
                 if (currentMeeting->getStopTime() - currentMeeting->getStartTime() >= 3 && threeHourMeetingExists) {
-
                     schedule->updateFitness(1000);
-
                 } else if (currentMeeting->getStopTime() - currentMeeting->getStartTime() >= 3) {
-
                     threeHourMeetingExists = true;
-
                 }
-
             }
 
             threeHourMeetingExists = false;
-
         }
-
     }
-
 }
 
 
@@ -419,15 +349,10 @@ void Rule9::getFitness(Schedule* schedule) {
             stop = meetings[i]->getStopTime();
 
             if (start < 8 || start > 20 || stop < 9 || stop > 21) {
-
                 schedule->updateFitness(1000);
-
             }
-
         }
 
         currentNode = currentNode->next;
-
     }
-
 }
