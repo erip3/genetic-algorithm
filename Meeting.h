@@ -27,28 +27,28 @@ public:
 
     // Sets newStart as the meeting's start time.
     //
-    virtual void setStartTime(int newStart);
+    void setStartTime(int newStart);
 
     // Sets newStop at the meeting's stop time.
     //
-    virtual void setStopTime(int newStop);
+    void setStopTime(int newStop);
 
     // Sets newDay as the meeting's day.
     //
-    virtual void setDay(char newDay);
+    void setDay(char newDay);
 
 
     // Returns the meeting's start time.
     //
-    virtual int getStartTime();
+    int getStartTime() const;
 
     // Returns the meeting's stop time.
     //
-    virtual int getStopTime();
+    int getStopTime() const;
 
     // Returns the meeting's day.
     //
-    virtual char getDay();
+    char getDay() const;
 
 };
 

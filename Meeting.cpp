@@ -10,10 +10,8 @@ Meeting::Meeting() {
 
 Meeting::Meeting(char initDay, int initStart, int initStop) {
 
-    // Wraparound for end times 
-    //
-    if (initStop > 23) {
-        initStop = initStop - 24;
+    if (initStop > 23) { // Wraparound for end times 
+        initStop = initStop % 23;
     }
 
     start = initStart;
@@ -39,14 +37,14 @@ void Meeting::setDay(char newDay) {
     day = newDay;
 }
 
-int Meeting::getStartTime() {
+int Meeting::getStartTime() const {
     return start;
 }
 
-int Meeting::getStopTime() {
+int Meeting::getStopTime() const {
     return stop;
 }
 
-char Meeting::getDay() {
+char Meeting::getDay() const {
     return day;
 }

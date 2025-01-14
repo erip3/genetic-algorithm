@@ -6,8 +6,7 @@ using namespace std;
 
 int main() {
 
-    Optimizer optimizer;
-    Schedule* schedule = optimizer.optimizeSchedule();
+    Schedule* schedule = Optimizer::findOptimalSchedule("Sections.txt");
 
     cout << endl;
     cout << "Optimal Schedule: " << endl;

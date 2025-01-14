@@ -40,7 +40,31 @@ Schedule* crossover(const Schedule* schedule1, const Schedule* schedule2) {
 }
 
 
-Schedule* Optimizer::optimizeSchedule() {
+Schedule* Optimizer::findOptimalSchedule(const string fileName) {
+
+    static const int POPULATION_SIZE = 3000; // Number of schedules in each generation.
+
+    static const int ELITE_SIZE = 250;       // Number of elite schedules per generation.
+                                             // These schedules have the lowest fitness
+                                             // values of their generation.
+
+    static const int MAX_ITERATIONS = 1000;  // Maximum number of generations to be 
+                                             // created.
+
+    static const int STABLE_ITERATIONS = 5;  // The maximum number of times generations
+                                             // can be created without the lowering of 
+                                             // fitness values. New generations stop being 
+                                             // created once this number is reached.
+
+    Schedule* schedules[POPULATION_SIZE];    // Array of schedules containing one
+                                             // generation.
+
+    Schedule* eliteSchedules[ELITE_SIZE];    // Array of schedules containing the 
+                                             // schedules with the lowest fitness 
+                                             // value in a generation
+
+    Rule* rules[9] = {new Rule1(), new Rule2(), new Rule3(), new Rule4(), new Rule5(),
+                      new Rule6(), new Rule7(), new Rule8(), new Rule9()};
 
     Schedule* currentSchedule;
     int generationsCreated = 1;
@@ -50,23 +74,17 @@ Schedule* Optimizer::optimizeSchedule() {
 
     srand(time(0));
 
-    // 100 schedule are created and stored in an array
+    // POPULATION_SIZE schedules are created and stored in an array
     //
     for (int i=0; i<POPULATION_SIZE; ++i) {
         currentSchedule = new Schedule;
-        currentSchedule->initializeSchedule();
+        currentSchedule->initializeSchedule(fileName);
 
         // Fitness for each rule is added to the schedules fitness
         //
-        rule1.getFitness(currentSchedule);
-        rule2.getFitness(currentSchedule);
-        rule3.getFitness(currentSchedule);
-        rule4.getFitness(currentSchedule);
-        rule5.getFitness(currentSchedule);
-        rule6.getFitness(currentSchedule);
-        rule7.getFitness(currentSchedule);
-        rule8.getFitness(currentSchedule);
-        rule9.getFitness(currentSchedule);
+        for (Rule* rule : rules) {
+            rule->getFitness(currentSchedule);
+        }
 
         // The schedule is inserted into the array based on fitness
         //
@@ -134,15 +152,9 @@ Schedule* Optimizer::optimizeSchedule() {
 
             // Fitness for each rule is added to the schedules fitness
             //
-            rule1.getFitness(currentSchedule);
-            rule2.getFitness(currentSchedule);
-            rule3.getFitness(currentSchedule);
-            rule4.getFitness(currentSchedule);
-            rule5.getFitness(currentSchedule);
-            rule6.getFitness(currentSchedule);
-            rule7.getFitness(currentSchedule);
-            rule8.getFitness(currentSchedule);
-            rule9.getFitness(currentSchedule);
+            for (Rule* rule : rules) {
+                rule->getFitness(currentSchedule);
+            }
 
             // The schedule is inserted into the array based on fitness
             //

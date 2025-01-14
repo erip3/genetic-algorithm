@@ -11,7 +11,6 @@ Schedule::Schedule() {
     instructors = new Instructor*[STEP];
 }
 
-
 Schedule::~Schedule() {
     Node* currentNode = head;
     Node* previousNode;
@@ -35,41 +34,7 @@ int Schedule::getNodeCount() const {
     return nodeCount;
 }
 
-// Used to create a random schedule from sections.txt
-//
-void Schedule::initializeSchedule() {
-    ifstream inFS;
-    inFS.open("Sections.txt");
-
-    Node* currentNode;
-    Section* newSection;
-    Node* previousNode;
-
-    bool instructorExists;
-
-    Meeting** tempMeetings;
-    int tempMeetingCount = 0;
-
-    // Gathers all information from file
-    //
-    do {
-        nodeCount++;
-        string newIdentifier;
-        string newInstructor;
-
-        currentNode = new Node;
-        newSection = new Section;
-
-        // Reads identifier and instuctor from file, inserting into newSection
-        //
-        inFS >> newIdentifier;
-        newSection->setIdentifier(newIdentifier);
-        inFS >> newInstructor;
-        newSection->setInstructor(newInstructor);
-
-        currentNode->section = newSection;
-        currentNode->next = nullptr;
-
+/*
         // Randomly assigns meeting times to each section on the schedule
         // Case 1: MWF, Case 2: TR, Case 3
         //
@@ -97,11 +62,8 @@ void Schedule::initializeSchedule() {
             } while (randomTime == 12);
         }
 
-
         // Randomly chooses a section type
-        //
-        switch(num)
-        {
+        switch(num) {
             case 1:
                 currentNode->section->addMeeting(new Meeting('M', randomTime, randomTime + 1));
                 currentNode->section->addMeeting(new Meeting('W', randomTime, randomTime + 1));
@@ -252,7 +214,41 @@ void Schedule::initializeSchedule() {
 
             ++instructorCount;
         }
-        
+*/
+
+// Used to create a basic schedule from sections.txt
+//
+void Schedule::initializeSchedule(const string fileName) {
+    ifstream inFS;
+    inFS.open(fileName);
+
+    Node* currentNode;
+    Section* newSection;
+    Node* previousNode;
+
+    bool instructorExists;
+
+    Meeting** tempMeetings;
+    int tempMeetingCount = 0;
+
+    // Gathers all information from file
+    //
+    do {
+        nodeCount++;
+        string newIdentifier;
+        string newInstructor;
+
+        currentNode = new Node;
+
+        // Reads identifier and instuctor from file, inserting into newSection
+        //
+        inFS >> newIdentifier;
+        newSection->setIdentifier(newIdentifier);
+        inFS >> newInstructor;
+        newSection->setInstructor(newInstructor);
+
+        currentNode->section = nullptr;
+        currentNode->next = nullptr;
 
         // Nodes are assigned their next pointers
         //
@@ -266,9 +262,7 @@ void Schedule::initializeSchedule() {
 
     } while (!inFS.fail() && !inFS.eof());
 
-
     // Checks of end of file was reached successfully
-    //
     if (!inFS.eof()) {
         cout << "Could not reach end of file." << endl;
     }
@@ -452,7 +446,7 @@ void Schedule::copyInsert(const Node* node) {
     ++nodeCount;
 }
 
-int Schedule::getFitness() {
+int Schedule::getFitness() const {
     return fitness;
 }
 
@@ -466,6 +460,6 @@ Instructor** Schedule::getInstructors() {
     return instructors;
 }
 
-int Schedule::getInstructorCount() {
+int Schedule::getInstructorCount() const {
     return instructorCount;
 }

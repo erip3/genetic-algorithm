@@ -4,20 +4,15 @@
 #include "Section.h"
 #include "Meeting.h"
 
-// This struct represents a node on the schedule. Each node contains a section
-// and a pointer to the next node. 
-//
 struct Node {
     Node* next;       // Pointer to the next node on the schedule.
     Section* section; // This node's section.
 };
 
-// This struct represents an instructor.
-//
 struct Instructor {
     string name;                            // The instructor's name.
     Meeting** meetings[5];                  // Array of the instructor's meetings.
-    int meetingCounts[5] = {0, 0, 0, 0, 0}; // The number of meetings on each day of the week.
+    int meetingCounts[5] = {0, 0, 0, 0, 0}; // The number of meetings on each weekday.
                                             // All counts are initially 0.
 };
 
@@ -36,54 +31,38 @@ private:
     
 public:
     Schedule();
+    Schedule(const Schedule* schedule);
     ~Schedule();
 
     // Gets the number of nodes on a schedule.
-    //
-    virtual int getNodeCount() const;
+    int getNodeCount() const;
 
     // Gets a pointer to the first node on the schedule.
-    //
-    virtual Node* getHead() const;
+    Node* getHead() const;
 
     // Creates a random schedule from the text file "Section.txt".
-    //
-    virtual void initializeSchedule();
+    void initializeSchedule(const string fileName);
 
     // Copies a node and inserts it into the schedule.
-    //
-    // Parameters:
-    //    node (Node*) - Pointer to the node to be added to the schedule.
-    //
-    virtual void copyInsert(const Node* node);
+    void copyInsert(const Node* node);
 
     // Adds a schedule's instructors to the instructors array.
-    //
-    virtual void initializeInstructors();
+    void initializeInstructors();
 
     // Returns an array containing all of a schedule's instructors.
-    //
-    virtual Instructor** getInstructors();
+    Instructor** getInstructors();
 
     // Gets the number of instructors on the schedule.
-    //
-    virtual int getInstructorCount();
+    int getInstructorCount() const;
 
     // Gets the fitness value of the schedule.
-    //
-    virtual int getFitness();
+    int getFitness() const;
 
     // Updates the fitness value of the schedule.
-    //
-    // Parameters:
-    //    addedValue (int) - Value added to the schedule's current fitness value.
-    //
-    virtual void updateFitness(int addedValue);
+    void updateFitness(int addedValue);
 
     // Outputs all of a schedule's meetings to the user.
-    //
-    virtual void display() const;
-    
+    void display() const;
 };
 
 #endif 
