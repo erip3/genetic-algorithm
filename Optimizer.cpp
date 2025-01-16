@@ -34,8 +34,6 @@ Schedule* crossover(const Schedule* schedule1, const Schedule* schedule2) {
         count++;
     }
 
-    newSchedule->initializeInstructors();
-
     return newSchedule;
 }
 
@@ -72,58 +70,28 @@ Schedule* Optimizer::findOptimalSchedule(const string fileName) {
     int bestFitness;
     int prevBest;
 
+    Schedule* templateSchedule = new Schedule;
+    templateSchedule->initializeTemplateSchedule(fileName);
+
     srand(time(0));
 
     // POPULATION_SIZE schedules are created and stored in an array
-    //
     for (int i=0; i<POPULATION_SIZE; ++i) {
-        currentSchedule = new Schedule;
-        currentSchedule->initializeSchedule(fileName);
+        currentSchedule = new Schedule(*templateSchedule);
+        currentSchedule->randomizeScheduleMeetings();
 
-        // Fitness for each rule is added to the schedules fitness
-        //
-        for (Rule* rule : rules) {
+        for (Rule* rule : rules) { // Fitness for each rule is added to the schedules fitness
             rule->getFitness(currentSchedule);
         }
 
-        // The schedule is inserted into the array based on fitness
-        //
-        bool inserted = false;
-        int s = 0;
-
-        if (i == 0) {
-            schedules[i] = currentSchedule;
-            inserted = true;
-        }
-
-        while (!inserted && s < i) {
-
-            if (schedules[s]->getFitness() >= currentSchedule->getFitness()) {
-
-                inserted = true;
-
-                for (int k=i; k > s; --k) {
-                    schedules[k] = schedules[k-1];
-                }
-
-                schedules[s] = currentSchedule;
-            }
-
-            s++;
-        }
-
-        if (!inserted) {
-            schedules[i] = currentSchedule;
-        }
+        schedules[i] = currentSchedule;
     }
 
     bestFitness = schedules[0]->getFitness();
 
     cout << "Generation 1 Best Fitness: " << bestFitness << endl;
-
     
     while (bestFitness != 0 && generationsCreated <= MAX_ITERATIONS && stableCount <= STABLE_ITERATIONS) {
-
 
         // Elite schedules added to array
         //

@@ -2,7 +2,6 @@
 #define SECTION_H
 
 #include "Meeting.h"
-
 #include <string>
 
 using namespace std;
@@ -21,49 +20,34 @@ public:
 
     // Default constructor. The identifier and instructor are initially empty strings. 
     // MeetingCount initializes to 0.
-    //
     Section();
 
     // Copy constructor.
-    //
     Section(const Section &section);
 
-
     // Adds newMeeting to the meetings array.
-    //
-    virtual void addMeeting(Meeting* newMeeting);
+    void addMeeting(Meeting* newMeeting);
 
     // Outputs all of a section's meetings to the user.
-    //
-    virtual void displayMeetings();
-
+    void displayMeetings();
 
     // Returns an array of the section's meetings.
-    //
-    virtual Meeting** getMeetings();
+    Meeting** getMeetings() const;
 
     // Returns the number of weekly meetings.
-    //
-    virtual int getMeetingCount();
-
-    
-    // Sets newIdentifier as the section's identifier.
-    //
-    virtual void setIdentifier(string newIdentifier);
-
-    // Sets newInstructor as the sections's instructor.
-    //
-    virtual void setInstructor(string newInstructor);
-
+    int getMeetingCount() const;
 
     // Returns the section's identifier.
-    //
-    virtual string getIdentifier();
+    string getIdentifier() const;
 
     // Returns the name of the section's instructor.
-    //
-    virtual string getInstructor();
+    string getInstructor() const;
 
+    // Sets newIdentifier as the section's identifier.
+    void setIdentifier(string newIdentifier);
+
+    // Sets newInstructor as the sections's instructor.
+    void setInstructor(string newInstructor);
 };
 
 #endif
