@@ -1,13 +1,15 @@
 #include "Optimizer.h"
 #include "Rule.h"
 #include "Schedule.h"
-#include <ctime>
 #include <iostream>
 
 using namespace std;
 
+void quicksort(Schedule* schedule) {
+
+}
+
 // Crossover function for creating new generations
-//
 Schedule* crossover(const Schedule* schedule1, const Schedule* schedule2) {
 
     Schedule* newSchedule = new Schedule;
@@ -40,20 +42,6 @@ Schedule* crossover(const Schedule* schedule1, const Schedule* schedule2) {
 
 Schedule* Optimizer::findOptimalSchedule(const string fileName) {
 
-    static const int POPULATION_SIZE = 3000; // Number of schedules in each generation.
-
-    static const int ELITE_SIZE = 250;       // Number of elite schedules per generation.
-                                             // These schedules have the lowest fitness
-                                             // values of their generation.
-
-    static const int MAX_ITERATIONS = 1000;  // Maximum number of generations to be 
-                                             // created.
-
-    static const int STABLE_ITERATIONS = 5;  // The maximum number of times generations
-                                             // can be created without the lowering of 
-                                             // fitness values. New generations stop being 
-                                             // created once this number is reached.
-
     Schedule* schedules[POPULATION_SIZE];    // Array of schedules containing one
                                              // generation.
 
@@ -73,8 +61,6 @@ Schedule* Optimizer::findOptimalSchedule(const string fileName) {
     Schedule* templateSchedule = new Schedule;
     templateSchedule->initializeTemplateSchedule(fileName);
 
-    srand(time(0));
-
     // POPULATION_SIZE schedules are created and stored in an array
     for (int i=0; i<POPULATION_SIZE; ++i) {
         currentSchedule = new Schedule(*templateSchedule);
@@ -86,6 +72,10 @@ Schedule* Optimizer::findOptimalSchedule(const string fileName) {
 
         schedules[i] = currentSchedule;
     }
+
+    // Sort schedules by fitness value
+    quicksort(*schedules); // TODO: Implement sort
+    return schedules[0]; // Remove after implementation
 
     bestFitness = schedules[0]->getFitness();
 

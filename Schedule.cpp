@@ -14,22 +14,22 @@ Schedule::Schedule(const Schedule& other)
     : head(nullptr), nodeCount(other.nodeCount), 
     fitness(other.fitness), instructorCount(other.instructorCount) {
 
-    Schedule* newSchedule = new Schedule;
     Node* otherCurrentNode = other.head;
-    Node* currentNode = nullptr;
+    Node* newCurrentNode = nullptr;
 
     if (otherCurrentNode) {
         head = new Node;
-        head->section = new Section(*currentNode->section);
+        newCurrentNode = head;
+        head->section = new Section(*otherCurrentNode->section);
         head->next = nullptr;
-        currentNode = head;
         otherCurrentNode = otherCurrentNode->next;
 
         // Copy all nodes
         while (otherCurrentNode != nullptr) {
-            currentNode->next = new Node;
-            currentNode = currentNode->next;
-            currentNode->section = new Section(*otherCurrentNode->section);
+            newCurrentNode->next = new Node;
+            newCurrentNode = newCurrentNode->next;
+            newCurrentNode->next = nullptr;
+            newCurrentNode->section = new Section(*otherCurrentNode->section);
             otherCurrentNode = otherCurrentNode->next;
         }
     }
@@ -114,7 +114,28 @@ void Schedule::randomizeScheduleMeetings() {
     Node* currentNode = head;
 
     while (currentNode) {
-        currentNode->section->addMeeting(new Meeting);
+        // Sections may have 1, 2, or 3 hour meetings
+        int sectionType = (rand() % 3) + 1;
+        int meetingTime = (rand() % 24);
+        int day;
+
+        switch (sectionType) {
+            case 1: // 1 hour meetings are MWF
+                currentNode->section->addMeeting(new Meeting(0, meetingTime, meetingTime + 1));
+                currentNode->section->addMeeting(new Meeting(2, meetingTime, meetingTime + 1));
+                currentNode->section->addMeeting(new Meeting(4, meetingTime, meetingTime + 1));
+                break;
+            case 2: // 2 hour meetings are TuTh
+                currentNode->section->addMeeting(new Meeting(1, meetingTime, meetingTime + 2));
+                currentNode->section->addMeeting(new Meeting(3, meetingTime, meetingTime + 2));
+                break;
+            case 3: // 3 hour meetings are held any day of the week, once a week
+                day = (rand() % 5);
+                currentNode->section->addMeeting(new Meeting(day, meetingTime, meetingTime + 3));
+                break;
+            default: 
+                break;
+        }
         currentNode = currentNode->next;
     }
 }

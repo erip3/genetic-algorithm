@@ -7,7 +7,7 @@ using namespace std;
 // Add 1000000 if an instructor is scheduled to teach two sections that overlap
 //
 void Rule1::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 };
 
 
@@ -15,7 +15,7 @@ void Rule1::getFitness(Schedule* schedule) {
 // Add 100 for every hour an instructor needs to remain on campus past 9 hours/day
 //
 void Rule2::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 };
 
 
@@ -24,14 +24,14 @@ void Rule2::getFitness(Schedule* schedule) {
 // before 11am when they started a class at or after 6pm
 //
 void Rule3::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 // Avoid scheduling instructors for more than two evenings per week
 // Add 50 for every day beyond two they have start a class at 6pm or later
 //
 void Rule4::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 
@@ -39,7 +39,7 @@ void Rule4::getFitness(Schedule* schedule) {
 // Add 50 for every occurrence over every day of back-to-back classes for a given instructor.
 //
 void Rule5::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 
@@ -47,7 +47,7 @@ void Rule5::getFitness(Schedule* schedule) {
 // Add 50 for every day an instructor teaches immediately before and after common hour.
 //
 void Rule6::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 
@@ -55,7 +55,7 @@ void Rule6::getFitness(Schedule* schedule) {
 // Add 50 for every day an instructor teaches more than 3 classes
 //
 void Rule7::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 
@@ -63,7 +63,7 @@ void Rule7::getFitness(Schedule* schedule) {
 // Add 1000 for every day an instructor teaches more than one three hour class
 //
 void Rule8::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
 
 
@@ -71,5 +71,5 @@ void Rule8::getFitness(Schedule* schedule) {
 // Add 1000 for each meeting with times not within these limits
 //
 void Rule9::getFitness(Schedule* schedule) {
-
+    schedule->updateFitness(0);
 }
